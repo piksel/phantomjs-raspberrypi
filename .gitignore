@@ -96,7 +96,6 @@ DocProject/Help/html
 publish
 
 # Others
-[Bb]in
 [Oo]bj
 sql
 TestResults
@@ -124,7 +123,6 @@ Thumbs.db
 
 # Folder config file
 Desktop.ini
-
 
 #############
 ## Python
