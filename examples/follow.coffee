@@ -1,11 +1,14 @@
 # List following and followers from several accounts
 
-users= [
+users = [
+  'PhantomJS'
   'ariyahidayat'
   'detronizator'
   'KDABQt'
   'lfranchi'
   'jonleighton'
+  '_jamesmgreene'
+  'Vitalliumm'
   ]
 
 follow = (user, callback) ->
@@ -16,6 +19,7 @@ follow = (user, callback) ->
     else
       data = page.evaluate -> document.querySelector('div.profile td.stat.stat-last div.statnum').innerText;
       console.log user + ': ' + data
+    page.close()
     callback.apply()
 
 process = () ->
