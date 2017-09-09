@@ -3,9 +3,13 @@
 "use strict";
 var page = require('webpage').create(),
     server = 'http://posttestserver.com/post.php?dump',
-    data = 'universe=expanding&answer=42';
+    data = '{"universe": "expanding", "answer": 42}';
 
-page.open(server, 'post', data, function (status) {
+var headers = {
+    "Content-Type": "application/json"
+}
+
+page.open(server, 'post', data, headers, function (status) {
     if (status !== 'success') {
         console.log('Unable to post!');
     } else {

@@ -19,6 +19,7 @@
 // NOTE.2: This script is not here to teach you ANY JavaScript. It's aweful!
 // NOTE.3: Main audience for this are people new to PhantomJS.
 
+"use strict";
 var sys = require("system"),
     page = require("webpage").create(),
     logResources = false,
@@ -57,6 +58,10 @@ page.onUrlChanged = function() {
 };
 page.onNavigationRequested = function() {
     console.log("page.onNavigationRequested");
+    printArgs.apply(this, arguments);
+};
+page.onRepaintRequested = function() {
+    console.log("page.onRepaintRequested");
     printArgs.apply(this, arguments);
 };
 
