@@ -38,7 +38,7 @@ function waitFor(testFx, onReady, timeOutMillis) {
 
 
 if (system.args.length !== 2) {
-    console.log('Usage: run-jasmine.js URL');
+    console.log('Usage: run-jasmine2.js URL');
     phantom.exit(1);
 }
 
@@ -51,39 +51,41 @@ page.onConsoleMessage = function(msg) {
 
 page.open(system.args[1], function(status){
     if (status !== "success") {
-        console.log("Unable to open " + system.args[1]);
-        phantom.exit(1);
+        console.log("Unable to access network");
+        phantom.exit();
     } else {
         waitFor(function(){
             return page.evaluate(function(){
-                return document.body.querySelector('.symbolSummary .pending') === null
+                return (document.body.querySelector('.symbolSummary .pending') === null &&
+                        document.body.querySelector('.duration') !== null);
             });
         }, function(){
             var exitCode = page.evaluate(function(){
-                try {
-                    console.log('');
-                    console.log(document.body.querySelector('.description').innerText);
-                    var list = document.body.querySelectorAll('.results > #details > .specDetail.failed');
-                    if (list && list.length > 0) {
+                console.log('');
+
+                var title = 'Jasmine';
+                var version = document.body.querySelector('.version').innerText;
+                var duration = document.body.querySelector('.duration').innerText;
+                var banner = title + ' ' + version + ' ' + duration;
+                console.log(banner);
+
+                var list = document.body.querySelectorAll('.results > .failures > .spec-detail.failed');
+                if (list && list.length > 0) {
+                  console.log('');
+                  console.log(list.length + ' test(s) FAILED:');
+                  for (i = 0; i < list.length; ++i) {
+                      var el = list[i],
+                          desc = el.querySelector('.description'),
+                          msg = el.querySelector('.messages > .result-message');
                       console.log('');
-                      console.log(list.length + ' test(s) FAILED:');
-                      for (i = 0; i < list.length; ++i) {
-                          var el = list[i],
-                              desc = el.querySelector('.description'),
-                              msg = el.querySelector('.resultMessage.fail');
-                          console.log('');
-                          console.log(desc.innerText);
-                          console.log(msg.innerText);
-                          console.log('');
-                      }
-                      return 1;
-                    } else {
-                      console.log(document.body.querySelector('.alert > .passingAlert.bar').innerText);
-                      return 0;
-                    }
-                } catch (ex) {
-                    console.log(ex);
-                    return 1;
+                      console.log(desc.innerText);
+                      console.log(msg.innerText);
+                      console.log('');
+                  }
+                  return 1;
+                } else {
+                  console.log(document.body.querySelector('.alert > .bar.passed,.alert > .bar.skipped').innerText);
+                  return 0;
                 }
             });
             phantom.exit(exitCode);
