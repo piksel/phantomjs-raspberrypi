@@ -5,7 +5,7 @@ Compiled on Raspbian Hardfloat.
 
 Instruction set: __armv6__ (compatible with all raspberry pi devices)
 
-__Note__: Due to different versions of libraries for Rasbian prior to Stretch, you'll have to use the [master branch](https://github.com/piksel/phantomjs-raspberrypi/tree/master).
+__Note__: Due to different versions of libraries for Rasbian prior to Stretch, you'll have to use the [jessie branch](https://github.com/piksel/phantomjs-raspberrypi/tree/jessie).
 
 __2017-09-09__: Compiled 2.1.1 for Raspbian Stretch  
 __2017-06-26__: Compiled the first qt5 version: 2.1.1  
